@@ -11,7 +11,7 @@ public class Grupos{
     private int [] invPMcla; // Orden de permutación inversa (para descifrado)
     
     /**
-     * Método constructor
+     * Método constructor del algoritmo de cifrado Transposición por grupos
      * @param PMcla Arreglo de enteros que contiene el orden en el que se
      *              realiza la permutación de grupos
      */
@@ -73,7 +73,8 @@ public class Grupos{
     }
 
     /**
-     * Sobrecarga de métodos para encapsular el cifrado del mensaje
+     * Método que cifra el mensaje utilizando el algoritmo de transposición
+     * por grupos
      * @param   Mcla    Mensaje a cifrar
      * @return          Mensaje cifrado
      */
@@ -82,7 +83,8 @@ public class Grupos{
     }
 
     /**
-     * Sobrecarga de métodos para encapsular el descifrado del mensaje
+     * Método que descifra un mensaje utilizando el algoritmo de transposición
+     * por grupos
      * @param   Mcla    Mensaje a descifrar
      * @return          Mensaje descifrado
      */
