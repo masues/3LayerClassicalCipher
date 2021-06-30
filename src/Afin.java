@@ -93,7 +93,6 @@ public class Afin {
      * @return              Carácter que representa al número ingresado
      */
     private char toChar(int numericRep){
-        char character;
         // Si el alfabeto es castellano y se tiene la representación de las
         // letras 'O', 'Ñ' o mayores
         if (this.n==27 && numericRep >= (int) 'O' - 65){
@@ -110,19 +109,18 @@ public class Afin {
     
     /**
      * Este método tiene como entrada al mensaje en claro y como salida devuelve
-     * al mensaje cifrado.
+     * al mensaje cifrado mediante el algoritmo afín.
      * @param   Mcla    Cadena que contiene el mensaje en claro
      * @return          Cadena cifrada mediante el algoritmo afín
      */
     public String encrypt(String Mcla){
-        // El cifrado se realiza carácter por carácter aplicando la fórmula
-        // Ci = (a*Mi + b) mod n
-        
         String criptograma = ""; // variable que almacenará el mensaje cifrado
         char[] mcla = Mcla.toCharArray();
         
+        // El cifrado se realiza carácter por carácter aplicando la fórmula
+        // Ci = (a*Mi + b) mod n
         for (char character: mcla){
-            criptograma += this.toChar( (a * this.toNumeric(character) + b) % n );
+            criptograma += this.toChar((a * this.toNumeric(character) + b) % n);
         }
         return criptograma;
     }
@@ -134,12 +132,11 @@ public class Afin {
      * @return          Cadena que contiene al mensaje descifrado
      */
     public String decrypt(String Cripto){
-        // El cifrado se realiza carácter por carácter aplicando la fórmula
-        // Ci = (a*Mi + b) mod n
-        
         String mcla = ""; // variable que almacenará al mensaje descifrado
         char[] cripto = Cripto.toCharArray();
         
+        // El descifrado se realiza carácter por carácter aplicando la fórmula
+        // Mi = ((Ci - b) * aInv) mod n
         for (char character: cripto){
             mcla += this.toChar( ((this.toNumeric(character) - b) * aInv) % n );
         }
