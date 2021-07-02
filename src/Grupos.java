@@ -3,93 +3,98 @@ import java.util.stream.*;
 
 /**
  * Clase que implementa el algoritmo de cifrado Transposición por grupos
+ * 
+ * @author Diego Cesar Herrera Sanchez
+ * @author José Gerardo Prado Padilla
  * @author Mario Alberto Suárez Espinoza
  */
-public class Grupos{
-    private int p; // Periodo del grupo
-    private int [] PMcla; // Orden de la permutación
-    private int [] invPMcla; // Orden de permutación inversa (para descifrado)
-    
-    /**
-     * Método constructor del algoritmo de cifrado Transposición por grupos
-     * @param PMcla Arreglo de enteros que contiene el orden en el que se
-     *              realiza la permutación de grupos
-     */
-    public Grupos(int[] PMcla){
-        this.PMcla = PMcla;
-        this.p = PMcla.length;
-        this.setInvPMcla();
+public class Grupos {
+  private int p; // Periodo del grupo
+  private int[] PMcla; // Orden de la permutación
+  private int[] invPMcla; // Orden de permutación inversa (para descifrado)
+
+  /**
+   * Método constructor del algoritmo de cifrado Transposición por grupos
+   * 
+   * @param PMcla Arreglo de enteros que contiene el orden en el que se realiza la
+   *              permutación de grupos
+   */
+  public Grupos(int[] PMcla) {
+    this.PMcla = PMcla;
+    this.p = PMcla.length;
+    this.setInvPMcla();
+  }
+
+  /**
+   * Método para obtener el arreglo de permutación inversa
+   */
+  private void setInvPMcla() {
+    // Inicializa un arreglo de permutación inversa de tamaño igual
+    // al arreglo de permutación PMcla original
+    int[] invPMcla = new int[p];
+    // Genera una lista utilizando el arreglo PMcla original
+    List<Integer> PMcla = IntStream.of(this.PMcla).boxed().collect(Collectors.toList());
+    // Al arreglo de permutación inversa le asigna el índice del elemento
+    // de la lista PMcla que contiene al índice de la iteración actual
+    for (int i = 0; i < p; i++) {
+      invPMcla[i] = PMcla.indexOf(i + 1) + 1;
     }
 
-    /**
-     * Método para obtener el arreglo de permutación inversa
-     */
-    private void setInvPMcla(){
-        // Inicializa un arreglo de permutación inversa de tamaño igual
-        // al arreglo de permutación PMcla original
-        int [] invPMcla = new int[p];
-        // Genera una lista utilizando el arreglo PMcla original
-        List<Integer> PMcla =
-            IntStream.of(this.PMcla).boxed().collect(Collectors.toList());
-        // Al arreglo de permutación inversa le asigna el índice del elemento
-        // de la lista PMcla que contiene al índice de la iteración actual
-        for (int i = 0; i < p; i++){
-            invPMcla[i] = PMcla.indexOf(i+1) + 1;
-        }
+    // Almacena el arreglo de permutación inversa como propiedad del objeto
+    this.invPMcla = invPMcla;
+  }
 
-        // Almacena el arreglo de permutación inversa como propiedad del objeto
-        this.invPMcla = invPMcla;
+  /**
+   * Método para cifrar o descifrar una cadena utilizando transposición por grupos
+   * 
+   * @param Mcla      Cadena a cifrar o descifrar
+   * @param isDecrypt Si es true, se realiza un descifrado, en caso contrario
+   *                  cifra la cadena
+   * @return Cadena cifrada o descifrada
+   */
+  private String encrypt(String Mcla, boolean isDecrypt) {
+    int k = (int) Mcla.length() / p; // Número de grupos que seran ordenados
+    // Variable que almacena al mensaje cifrado o descifrado
+    String cripto = "";
+
+    // Selecciona al arreglo de permutación dependiendo si cifra o descifra
+    PMcla = isDecrypt ? this.invPMcla : this.PMcla;
+
+    // Iteración sobre el número de grupos
+    for (int i = 0; i < k; i++) {
+      // Iteración sobre el el arreglo de permutaciones PMcla
+      for (int indiceCifrado : PMcla) {
+        cripto += Mcla.charAt(i * p + indiceCifrado - 1);
+      }
     }
 
-    /**
-     * Método para cifrar o descifrar una cadena utilizando transposición por
-     * grupos
-     * @param   Mcla        Cadena a cifrar o descifrar
-     * @param   isDecrypt   Si es true, se realiza un descifrado, en caso
-     *                      contrario cifra la cadena
-     * @return              Cadena cifrada o descifrada
-     */
-    private String encrypt(String Mcla, boolean isDecrypt){
-        int k = (int) Mcla.length()/p; // Número de grupos que seran ordenados
-        // Variable que almacena al mensaje cifrado o descifrado
-        String cripto = "";
+    // Agrega aquellos caracteres que no pudieron ser permutados debido
+    // a la longitud de la cadena Mcla
+    cripto += Mcla.substring(k * p);
 
-        // Selecciona al arreglo de permutación dependiendo si cifra o descifra
-        PMcla = isDecrypt ? this.invPMcla : this.PMcla;
+    return cripto;
+  }
 
-        // Iteración sobre el número de grupos
-        for (int i = 0; i < k; i++){
-            // Iteración sobre el el arreglo de permutaciones PMcla
-            for (int indiceCifrado: PMcla){
-                cripto += Mcla.charAt(i*p + indiceCifrado - 1);
-            }
-        }
+  /**
+   * Método que cifra el mensaje utilizando el algoritmo de transposición por
+   * grupos
+   * 
+   * @param Mcla Mensaje a cifrar
+   * @return Mensaje cifrado
+   */
+  public String encrypt(String Mcla) {
+    return this.encrypt(Mcla, false);
+  }
 
-        // Agrega aquellos caracteres que no pudieron ser permutados debido
-        // a la longitud de la cadena Mcla
-        cripto += Mcla.substring(k*p);
-        
-        return cripto;
-    }
-
-    /**
-     * Método que cifra el mensaje utilizando el algoritmo de transposición
-     * por grupos
-     * @param   Mcla    Mensaje a cifrar
-     * @return          Mensaje cifrado
-     */
-    public String encrypt(String Mcla){
-        return this.encrypt(Mcla, false);
-    }
-
-    /**
-     * Método que descifra un mensaje utilizando el algoritmo de transposición
-     * por grupos
-     * @param   Mcla    Mensaje a descifrar
-     * @return          Mensaje descifrado
-     */
-    public String decrypt(String Mcla){
-        return this.encrypt(Mcla, true);
-    }
+  /**
+   * Método que descifra un mensaje utilizando el algoritmo de transposición por
+   * grupos
+   * 
+   * @param Mcla Mensaje a descifrar
+   * @return Mensaje descifrado
+   */
+  public String decrypt(String Mcla) {
+    return this.encrypt(Mcla, true);
+  }
 
 }
