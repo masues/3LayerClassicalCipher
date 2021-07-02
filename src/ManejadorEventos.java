@@ -108,24 +108,27 @@ public class ManejadorEventos implements ActionListener {
 	}
 
 	private void generarCifrado() {
-
 		// primera capa del cifrado
 		// transposicion por grupos
-		System.out.println("Texto claro " + texto);
-		int[] PMcla = new int[] { 1, 3, 5, 2, 4 };
+
+		// Clave del cifrado de transposición por grupos
+		int[] PMcla = new int[] { 3, 1, 5, 2, 4 };
 		Grupos transGrupos = new Grupos(PMcla);
 		textoCifrado = transGrupos.encrypt(texto);
 
 		// segunda capa del cifrado
 		// cifrado vigenere
 
-		Vigenere vg = new Vigenere("ESTAESLACLAVE");
+		// Clave del cifrado por Vigenere
+		String claVig = "ALWÑUI";
+		Vigenere vg = new Vigenere(claVig);
 		textoCifrado = vg.encrypt(textoCifrado);
 
 		// tercera capa del cifrado
 		// cifrado afin
 
-		Afin afin = new Afin(5, 0, false);
+		// Cifrado afín con a = 13, b = 19, alfabeto castellano
+		Afin afin = new Afin(13, 19, false);
 		textoCifrado = afin.encrypt(textoCifrado);
 
 		this.guardarCifrado();// se invoca el metodo para guardar el cifrado
@@ -155,20 +158,24 @@ public class ManejadorEventos implements ActionListener {
 
 		// tercera capa del cifrado
 		// cifrado afin
-		System.out.println("Cifrado " + texto);
-		Afin afin = new Afin(5, 0, false);
+		
+		// Cifrado afín con a = 13, b = 19, alfabeto castellano
+		Afin afin = new Afin(13, 19, false);
 		textoClaro = afin.decrypt(texto);
 
 		// segunda capa del cifrado
 		// cifrado vigenere
 
-		Vigenere vg = new Vigenere("ESTAESLACLAVE");
+		// Clave del cifrado por Vigenere
+		String claVig = "ALWÑUI";
+		Vigenere vg = new Vigenere(claVig);
 		textoClaro = vg.decrypt(textoClaro);
 
 		// primera capa del cifrado
 		// transposicion por grupos
 
-		int[] PMcla = new int[] { 1, 3, 5, 2, 4 };
+		// Clave del cifrado de transposición por grupos
+		int[] PMcla = new int[] { 3, 1, 5, 2, 4 };
 		Grupos transGrupos = new Grupos(PMcla);
 		textoClaro = transGrupos.decrypt(textoClaro);
 
@@ -203,8 +210,8 @@ public class ManejadorEventos implements ActionListener {
 			if (array[i] >= 97 && array[i] <= 122) {
 				letra = array[i];
 				array[i] = (char) ((int) letra - 32);
-			} else if (array[i] == 164) {
-				array[i] = 165;
+			} else if (array[i] == 241) { //para transformar la Ñ
+				array[i] = (char) 209;
 			}
 		}
 
