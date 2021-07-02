@@ -38,7 +38,8 @@ public class Interfaz extends JFrame {
 			JPanel panel = (JPanel) this.getContentPane();
 			panel.setBorder(fondo);
 		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(this, "No se encontró a la imagen de fondo", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "No se encontró a la imagen de fondo",
+				"Adevertencia", JOptionPane.INFORMATION_MESSAGE);
 			getContentPane().setBackground(Color.DARK_GRAY); 
 		}
 

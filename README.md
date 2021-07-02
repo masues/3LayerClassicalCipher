@@ -1,14 +1,25 @@
-## Getting Started
+## Cifrador Conchita 🥯
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+El cifrador conchita conciste en un cifrador de 3 capas que utiliza algoritmos
+clásicos de cifrado.  
+Las capas utilizadas son
+- Transposición por grupos
+- Vigeneré
+- Afín
 
-## Folder Structure
+## Estructura de directorios
 
-The workspace contains two folders by default, where:
+Este proyecto posee un directorio y algunos archivos:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- `src`: Contiene el código fuente utilzado en el proyecto
+- `3LayerClassicalCipher.exe`: Ejecutable del proyecto en windows
+- `3LayerClassicalCipher.jar`: Ejecutable del proyecto en jar (se necestia tener
+instalado java)
+- `fondo.jpg`: Imagen que se utiliza como fondo de pantalla. Debe colocarse en
+el mismo directorio que el archivo `3LayerClassicalCipher.exe`. En caso de no
+encontrarse, el programa funciona sin problema y sólo emite una alerta.
 
-## Dependency Management
-
-The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-pack/blob/master/release-notes/v0.9.0.md#work-with-jar-files-directly).
+## Desarrollado por:
+- Diego Cesar Herrera Sanchez
+- José Gerardo Prado Padilla
+- Mario Alberto Suárez Espinoza
