@@ -1,3 +1,6 @@
+import java.lang.Math;
+
+
 /**
  * Clase que implementa el funcionamiento de un algoritmo de cifrado afín. Este
  * algoritmo sólo soporta letras mayúsculas. Soporta la letra 'Ñ' si se
@@ -124,7 +127,9 @@ public class Afin {
     // El cifrado se realiza carácter por carácter aplicando la fórmula
     // Ci = (a*Mi + b) mod n
     for (char character : mcla) {
-      criptograma += this.toChar((a * this.toNumeric(character) + b) % n);
+      criptograma += this.toChar(
+        Math.floorMod((a * this.toNumeric(character) + b),n)
+      );
     }
     return criptograma;
   }
@@ -143,7 +148,9 @@ public class Afin {
     // El descifrado se realiza carácter por carácter aplicando la fórmula
     // Mi = ((Ci - b) * aInv) mod n
     for (char character : cripto) {
-      mcla += this.toChar(((this.toNumeric(character) - b) * aInv) % n);
+      mcla += this.toChar(
+        Math.floorMod((this.toNumeric(character) - b) * aInv,n)
+      );
     }
     return mcla;
   }
